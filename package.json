@@ -1,11 +1,11 @@
 {
-  "name": "mathquill",
-  "description": "Easily type math in your webapp",
-  "version": "0.10.1",
+  "name": "@obennet/mathquill",
+  "description": "Modified version of mathquill",
+  "version": "0.1.0",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mathquill/mathquill.git"
+    "url": "https://github.com/obennet/mathquill.git"
   },
   "files": [
     "build/mathquill.{css,js,min.js}",
@@ -17,6 +17,6 @@
     "mocha": ">=2.4.1",
     "uglify-js": "2.x",
     "less": ">=1.5.1",
-    "jquery": "3.x"
+    "jquery": "^3.4.0"
   }
 }
