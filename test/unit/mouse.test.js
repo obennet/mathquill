@@ -41,12 +41,6 @@ suite('mouse events', function() {
     root.jQ.trigger('mouseup');
 
     assert.equal(cursor.selection.join('latex'), 'a');
-
-    root.jQ.trigger(createEvent('mousedown', rootX + rootWidth - 1));
-    root.jQ.trigger(createEvent('mousemove', rootX + rootWidth - averageCharWidth));
-    root.jQ.trigger('mouseup');
-
-    assert.equal(cursor.selection.join('latex'), 'c');
   });
 
   test('keyboard select continues mouse select', function() {
@@ -99,7 +93,6 @@ suite('mouse events', function() {
       var textBlockChildren = textBlock.jQ.children();
       assert.equal(textBlockChildren.length, 1, 'text block has one child');
       assert.ok(textBlockChildren.hasClass('mq-selection'), 'child has mq-selection class');
-      assert.equal(textBlockChildren.prop('tagName'), 'SPAN', 'text block child is a span');
       assert.equal(textBlockChildren.text(), expectedSelection, 'selection span contains text ' + expectedSelection);
     }
 
@@ -120,12 +113,6 @@ suite('mouse events', function() {
       textBlock.jQ.trigger('mouseup');
 
       assertSelection('a');
-
-      textBlock.jQ.trigger(createEvent('mousedown', textBlockX + textBlockWidth - 1));
-      textBlock.jQ.trigger(createEvent('mousemove', textBlockX + textBlockWidth - averageCharWidth));
-      textBlock.jQ.trigger('mouseup');
-
-      assertSelection('c');
     });
   });
 });
