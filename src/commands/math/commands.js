@@ -166,6 +166,12 @@ var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
   _.isStyleBlock = function () {
     return true;
   };
+  _.deleteTowards = function (dir, cursor) {
+    if (!this.isEmpty()) {
+      this.jQ.remove();
+    }
+    cursor[dir] = this.remove()[dir];
+  };
   _.parser = function () {
     var self = this, string = Parser.string, regex = Parser.regex;
     return Parser.optWhitespace

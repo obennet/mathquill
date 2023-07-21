@@ -224,12 +224,12 @@ Controller.open(function(_) {
   _.deleteDir = function(dir) {
     prayDirection(dir);
     var cursor = this.cursor;
-
     var hadSelection = cursor.selection;
     this.notify('edit'); // deletes selection if present
     if (!hadSelection) {
       if (cursor[dir]) cursor[dir].deleteTowards(dir, cursor);
-      else cursor.parent.deleteOutOf(dir, cursor);
+      else {
+        cursor.parent.deleteOutOf(dir, cursor);}
     }
 
     if (cursor[L].siblingDeleted) cursor[L].siblingDeleted(cursor.options, R);
