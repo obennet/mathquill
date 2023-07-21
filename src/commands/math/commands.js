@@ -146,23 +146,48 @@ var Class = LatexCmds['class'] = P(MathCommand, function(_, super_) {
         self.htmlTemplate = '<span class="mq-class '+cls+'">&0</span>';
         return super_.parser.call(self);
       })
-    ;
+      ;
   };
-  _.latex = function() {
+  _.latex = function () {
     return '\\class{' + this.cls + '}{' + this.blocks[0].latex() + '}';
   };
-  _.isStyleBlock = function() {
+  _.isStyleBlock = function () {
     return true;
   };
 });
 
-var SupSub = P(MathCommand, function(_, super_) {
+// Very similar to the \textcolor and \class command, but will add id to the latex string.
+// Usage: \identifier{id}{\text{text}}
+// Note regex that whitelists valid CSS classname characters:
+var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
+  _.latex = function () {
+    return '\\identifier{' + this.identifier + '}{' + this.blocks[0].latex() + '}';
+  };
+  _.isStyleBlock = function () {
+    return true;
+  };
+  _.parser = function () {
+    var self = this, string = Parser.string, regex = Parser.regex;
+    return Parser.optWhitespace
+      .then(string('{'))
+      .then(regex(/^[-\w\s\\\xA0-\xFF]*/))
+      .skip(string('}'))
+      .then(function (identifier) {
+        self.identifier = identifier || '';
+        self.htmlTemplate = '<span class="mq-class">&0</span>';
+        return super_.parser.call(self);
+      })
+      ;
+  };
+});
+
+var SupSub = P(MathCommand, function (_, super_) {
   _.ctrlSeq = '_{...}^{...}';
-  _.createLeftOf = function(cursor) {
+  _.createLeftOf = function (cursor) {
     if (!this.replacedFragment && !cursor[L] && cursor.options.supSubsRequireOperand) return;
     return super_.createLeftOf.apply(this, arguments);
   };
-  _.contactWeld = function(cursor) {
+  _.contactWeld = function (cursor) {
     // Look on either side for a SupSub, if one is found compare my
     // .sub, .sup with its .sub, .sup. If I have one that it doesn't,
     // then call .addBlock() on it with my block; if I have one that
