@@ -157,12 +157,15 @@ var Class = LatexCmds['class'] = P(MathCommand, function(_, super_) {
 });
 
 // Very similar to the \textcolor and \class command, but will add id to the latex string.
-// Usage: \identifier{id}{\text{text}}
+// Usage: \identifier{vd:id}{\text{text}}}
 // Note regex that whitelists valid CSS classname characters:
 var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
   _.latex = function () {
     return '\\identifier{' + this.identifier + '}{' + this.blocks[0].latex() + '}';
   };
+  _.text = function () {
+    return "{" + this.identifier + "," + this.blocks[0].text() + "}";
+  }
   _.isStyleBlock = function () {
     return true;
   };
@@ -176,7 +179,7 @@ var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
     var self = this, string = Parser.string, regex = Parser.regex;
     return Parser.optWhitespace
       .then(string('{'))
-      .then(regex(/^[-\w\s\\\xA0-\xFF]*/))
+      .then(regex(/^[-\w\s\\\xA0-\xFF:]*/))
       .skip(string('}'))
       .then(function (identifier) {
         self.identifier = identifier || '';

@@ -8,6 +8,7 @@
     <p>Static math span: <span id="static-math">x = \frac{ -b \pm \sqrt{b^2-4ac} }{ 2a }</span>
     <p>Editable math field: <span id="math-field">x^2</span></p>
     <p>LaTeX of what you typed: <code id="latex">x^2</code></p>
+    <p>Text of what you typed: <code id="text">x^2</code></p>
     <p><a href="http://docs.mathquill.com/en/latest/Getting_Started/">MathQuill&rsquo;s Getting
       Started Guide</a></p>
 
@@ -17,6 +18,7 @@
       var staticMathSpan = document.getElementById('static-math');
       var mathFieldSpan = document.getElementById('math-field');
       var latexSpan = document.getElementById('latex');
+        var textSpan = document.getElementById('text');
 
       var MQ = MathQuill.getInterface(2); // keeps the API stable
 
@@ -32,6 +34,7 @@
           edit: function() {
             // retrieve, in LaTeX format, the math that was typed:
             latexSpan.textContent = mathField.latex();
+            textSpan.textContent = mathField.text();
           }
         }
       });
