@@ -252,32 +252,41 @@ var TextPiece = P(Node, function(_, super_) {
     if (from) from.insTextAtDirEnd(ch, dir);
     else TextPiece(ch).createDir(-dir, cursor);
 
-    return this.deleteTowards(dir, cursor);
+    return this.deleteOne(dir, cursor);
   };
 
-  _.latex = function() { return this.text; };
+  _.latex = function () {
+    return this.text;
+  };
 
-  _.deleteTowards = function(dir, cursor) {
+  _.deleteOne = function (dir, cursor) {
     if (this.text.length > 1) {
       if (dir === R) {
         this.dom.deleteData(0, 1);
         this.text = this.text.slice(1);
-      }
-      else {
+      } else {
         // note that the order of these 2 lines is annoyingly important
         // (the second line mutates this.text.length)
         this.dom.deleteData(-1 + this.text.length, 1);
         this.text = this.text.slice(0, -1);
       }
-    }
-    else {
+    } else {
       this.remove();
       this.jQ.remove();
       cursor[dir] = this[dir];
     }
   };
 
-  _.selectTowards = function(dir, cursor) {
+  _.deleteTowards = function (dir, cursor) {
+    if (this.parent.parent.parent.type === 'identifier') {
+      this.parent.parent.parent.deleteTowards(dir, cursor);
+    }
+    else {
+      this.deleteOne(dir, cursor);
+    }
+  };
+
+  _.selectTowards = function (dir, cursor) {
     prayDirection(dir);
     var anticursor = cursor.anticursor;
 
@@ -301,7 +310,7 @@ var TextPiece = P(Node, function(_, super_) {
       }
     }
 
-    return this.deleteTowards(dir, cursor);
+    return this.deleteOne(dir, cursor);
   };
 });
 
@@ -354,8 +363,8 @@ var RootMathCommand = P(MathCommand, function(_, super_) {
         MathBlock.prototype.write.call(this, cursor, ch);
       else if (this.isEmpty()) {
         cursor.insRightOf(this.parent);
-        this.parent.deleteTowards(dir, cursor);
-        VanillaSymbol('\\$','$').createLeftOf(cursor.show());
+        this.parent.deleteOne(dir, cursor);
+        VanillaSymbol('\\$', '$').createLeftOf(cursor.show());
       }
       else if (!cursor[R])
         cursor.insRightOf(this.parent);

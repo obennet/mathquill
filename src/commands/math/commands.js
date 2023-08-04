@@ -141,15 +141,22 @@ var Class = LatexCmds['class'] = P(MathCommand, function(_, super_) {
       .then(string('{'))
       .then(regex(/^[-\w\s\\\xA0-\xFF]*/))
       .skip(string('}'))
-      .then(function(cls) {
+      .then(function (cls) {
         self.cls = cls || '';
-        self.htmlTemplate = '<span class="mq-class '+cls+'">&0</span>';
+        self.htmlTemplate = '<span class="mq-class ' + cls + '">&0</span>';
         return super_.parser.call(self);
       })
       ;
   };
   _.latex = function () {
     return '\\class{' + this.cls + '}{' + this.blocks[0].latex() + '}';
+  };
+  _.type = "class";
+  _.deleteTowards = function (dir, cursor) {
+    if (!this.isEmpty()) {
+      this.jQ.remove();
+    }
+    cursor[dir] = this.remove()[dir];
   };
   _.isStyleBlock = function () {
     return true;
@@ -166,14 +173,19 @@ var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
   _.text = function () {
     return "{" + this.identifier + "," + this.blocks[0].text() + "}";
   }
+  _.type = "identifier";
   _.isStyleBlock = function () {
     return true;
   };
   _.deleteTowards = function (dir, cursor) {
-    if (!this.isEmpty()) {
-      this.jQ.remove();
+    if (this.parent.parent.type === 'class') {
+      this.parent.parent.deleteTowards(dir, cursor);
+    } else {
+      if (!this.isEmpty()) {
+        this.jQ.remove();
+      }
+      cursor[dir] = this.remove()[dir];
     }
-    cursor[dir] = this.remove()[dir];
   };
   _.parser = function () {
     var self = this, string = Parser.string, regex = Parser.regex;
