@@ -156,7 +156,12 @@ var Class = LatexCmds['class'] = P(MathCommand, function(_, super_) {
     if (!this.isEmpty()) {
       this.jQ.remove();
     }
-    cursor[dir] = this.remove()[dir];
+    this.remove();
+    this.jQ.remove();
+    cursor[dir] = this[dir];
+  };
+  _.placeCursor = function(cursor) {
+    cursor.insRightOf(this);
   };
   _.isStyleBlock = function () {
     return true;
@@ -177,8 +182,12 @@ var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
   _.isStyleBlock = function () {
     return true;
   };
+  _.placeCursor = function(cursor) {
+    cursor.insRightOf(this);
+  };
   _.deleteTowards = function (dir, cursor) {
     if (this.parent.parent.type === 'class') {
+      this.parent.parent.placeCursor(cursor);
       this.parent.parent.deleteTowards(dir, cursor);
     } else {
       if (!this.isEmpty()) {

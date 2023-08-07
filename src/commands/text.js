@@ -279,6 +279,7 @@ var TextPiece = P(Node, function(_, super_) {
 
   _.deleteTowards = function (dir, cursor) {
     if (this.parent.parent.parent.type === 'identifier') {
+      this.parent.parent.parent.placeCursor(cursor);
       this.parent.parent.parent.deleteTowards(dir, cursor);
     }
     else {
