@@ -23,6 +23,25 @@ var Cursor = P(Point, function(_) {
   };
 
   _.show = function() {
+    if(this.parent.parent.parent && this.parent.parent.parent.type === "identifier") {
+      if(this[R]){
+        this.parent.parent.parent.placeCursor("R", this);
+      }
+      else {
+        this.parent.parent.parent.placeCursor("L", this);
+      }
+    }
+
+    if(this.parent.parent && this.parent.parent.type === "class") {
+      if(this[R]){
+        this.parent.parent.placeCursor("R", this);
+      }
+      else {
+        this.parent.parent.placeCursor("L", this);
+      }
+    }
+
+
     this.jQ = this._jQ.removeClass('mq-blink');
     if ('intervalId' in this) //already was shown, just restart interval
       clearInterval(this.intervalId);
