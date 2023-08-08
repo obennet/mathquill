@@ -161,10 +161,10 @@ var Class = LatexCmds['class'] = P(MathCommand, function(_, super_) {
     cursor[dir] = this[dir];
   };
   _.placeCursor = function(dir, cursor) {
-    if(dir === "R")
-      cursor.insRightOf(this);
-    else
+    if(dir === L)
       cursor.insLeftOf(this);
+    else
+      cursor.insRightOf(this);
   };
   _.isStyleBlock = function () {
     return true;
@@ -186,10 +186,10 @@ var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
     return true;
   };
   _.placeCursor = function(dir, cursor) {
-    if(dir === "R")
-      cursor.insRightOf(this);
-    else
+    if(dir === L)
       cursor.insLeftOf(this);
+    else
+      cursor.insRightOf(this);
   };
   _.deleteTowards = function (dir, cursor) {
     if (this.parent.parent.type === 'class') {

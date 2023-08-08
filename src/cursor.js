@@ -23,21 +23,22 @@ var Cursor = P(Point, function(_) {
   };
 
   _.show = function() {
+
     if(this.parent.parent.parent && this.parent.parent.parent.type === "identifier") {
-      if(this[R]){
-        this.parent.parent.parent.placeCursor("R", this);
+      if(this[L]){
+        this.parent.parent.parent.placeCursor(L, this);
       }
       else {
-        this.parent.parent.parent.placeCursor("L", this);
+        this.parent.parent.parent.placeCursor(R, this);
       }
     }
 
     if(this.parent.parent && this.parent.parent.type === "class") {
-      if(this[R]){
-        this.parent.parent.placeCursor("R", this);
+      if(this[L]){
+        this.parent.parent.placeCursor(L, this);
       }
       else {
-        this.parent.parent.placeCursor("L", this);
+        this.parent.parent.placeCursor(R, this);
       }
     }
 
