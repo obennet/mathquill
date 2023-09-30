@@ -216,19 +216,19 @@ var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
   };
 });
 
-
+// TODO improve delete
 var If = LatexCmds['if'] = P(MathCommand, function (_, super_) {
   _.ctrlSeq = '\\if';
-  _.textTemplate = ['if(', ')(', ')(', ')'];
+  _.textTemplate = ['if(', ',', ',', ')'];
   _.htmlTemplate =
       '<span class="mq-non-leaf">'
     +   '<span class="mq-scaled">IF</span>'
     +   '<span class="mq-paren mq-scaled">(</span>'
     +   '<span class="mq-non-leaf">'
     +    '<span>&0</span>'
-    +     '<span>; </span>'
+    +     '<span>, </span>'
     +     '<span>&1</span>'
-    +     '<span>; </span>'
+    +     '<span>, </span>'
     +     '<span>&2</span>'
     +   '</span>'
     +   '<span class="mq-paren mq-scaled">)</span>'
