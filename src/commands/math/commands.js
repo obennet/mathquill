@@ -212,10 +212,38 @@ var Identifier = LatexCmds['identifier'] = P(MathCommand, function (_, super_) {
         self.identifier = identifier || '';
         self.htmlTemplate = '<span class="mq-class">&0</span>';
         return super_.parser.call(self);
-      })
-      ;
+      });
   };
 });
+
+// TODO improve delete
+var If = LatexCmds['if'] = P(MathCommand, function (_, super_) {
+  _.ctrlSeq = '\\if';
+  _.textTemplate = ['if(', ',', ',', ')'];
+  _.htmlTemplate =
+      '<span class="mq-non-leaf">'
+    +   '<span class="mq-scaled">IF</span>'
+    +   '<span class="mq-paren mq-scaled">(</span>'
+    +   '<span class="mq-non-leaf">'
+    +    '<span>&0</span>'
+    +     '<span>, </span>'
+    +     '<span>&1</span>'
+    +     '<span>, </span>'
+    +     '<span>&2</span>'
+    +   '</span>'
+    +   '<span class="mq-paren mq-scaled">)</span>'
+    + '</span>'
+  ;
+
+  _.latex = function () {
+    return '\\if{' + this.blocks[0].latex() + '}{' + this.blocks[1].latex() + '}{' + this.blocks[2].latex() + '}';
+  };
+  _.text = function () {
+    return "if(" + this.blocks[0].latex() + "," + this.blocks[1].text() + "," + this.blocks[2].text() + ")";
+  }
+  _.type = "if";
+});
+
 
 var SupSub = P(MathCommand, function (_, super_) {
   _.ctrlSeq = '_{...}^{...}';
