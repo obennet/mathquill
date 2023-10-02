@@ -239,7 +239,7 @@ var If = LatexCmds['if'] = P(MathCommand, function (_, super_) {
     return '\\if{' + this.blocks[0].latex() + '}{' + this.blocks[1].latex() + '}{' + this.blocks[2].latex() + '}';
   };
   _.text = function () {
-    return "if(" + this.blocks[0].latex() + "," + this.blocks[1].text() + "," + this.blocks[2].text() + ")";
+    return "if(" + this.blocks[0].text() + "," + this.blocks[1].text() + "," + this.blocks[2].text() + ")";
   }
   _.type = "if";
 });
